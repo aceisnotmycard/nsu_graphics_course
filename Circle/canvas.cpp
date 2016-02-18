@@ -20,3 +20,18 @@ void Canvas::paintEvent(QPaintEvent *event) {
     }
     painter.drawImage(0, 0, backBuffer);
 }
+
+void Canvas::capture(QString filename, int height, int width)
+{
+    QImage backBuffer(width, height, QImage::Format_RGB888);
+
+    uchar* pubBuffer = backBuffer.bits();
+    if (!pubBuffer) {
+      return;
+    }
+    memset(pubBuffer, qRgb(0, 0, 0), backBuffer.byteCount());
+    if (circle) {
+      circle->draw(&backBuffer);
+    }
+    backBuffer.save(filename, "png");
+}

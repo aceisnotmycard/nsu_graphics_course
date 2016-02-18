@@ -13,12 +13,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void loadConfig(QString fileName, QMap<QString, int>& map);
 
 private:
     DrawWidget* drawWidget;
     Controls* controls;
-    void updateUI(int width, int height, int x, int y, int r);
-    void loadConfig(QString fileName);
+    void updateUI(QMap<QString, int>& map);
 
 private slots:
     void saveConfig();

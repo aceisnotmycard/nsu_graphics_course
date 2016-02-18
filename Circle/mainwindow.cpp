@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "drawwidget.h"
 
 #include <QFileDialog>
@@ -8,8 +7,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QByteArray>
+#include <qboxlayout.h>
 
+#include <QAction>
 #include <QDebug>
+#include <QMenuBar>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -36,28 +38,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(actionSave, SIGNAL(triggered(bool)), this, SLOT(saveConfig()));
 }
 
-void MainWindow::loadConfig(QString fileName) {
+void MainWindow::loadConfig(QString fileName, QMap<QString, int>& map) {
 
     QFile saveFile(fileName);
     saveFile.open(QFile::ReadOnly | QFile::Text);
-
-    int new_x = 0;
-    int new_y = 0;
-    int new_r = 0;
-    int new_width = 0;
-    int new_height = 0;
-
     QByteArray saveData = saveFile.readAll();
     QJsonDocument jsonSave(QJsonDocument::fromJson(saveData));
 
     QJsonObject saveObject = jsonSave.object();
 
-    new_width = saveObject["panel"].toObject()["size"].toObject()["x"].toInt();
-    new_height = saveObject["panel"].toObject()["size"].toObject()["y"].toInt();
-    new_x = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["x"].toInt();
-    new_y = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["y"].toInt();
-    new_r = saveObject["circles"].toArray()[0].toObject()["R"].toInt();
-    updateUI(new_width, new_height, new_x, new_y, new_r);
+    map["width"] = saveObject["panel"].toObject()["size"].toObject()["x"].toInt();
+    map["height"] = saveObject["panel"].toObject()["size"].toObject()["y"].toInt();
+    map["x"] = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["x"].toInt();
+    map["y"] = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["y"].toInt();
+    map["r"] = saveObject["circles"].toArray()[0].toObject()["R"].toInt();
 }
 
 void MainWindow::openConfig() {
@@ -65,7 +59,9 @@ void MainWindow::openConfig() {
         this, tr("Load file"), QDir::currentPath(), tr("All files (*.json)")
     );
     if (fileName.isEmpty()) return;
-    loadConfig(fileName);
+     QMap<QString, int> configMap;
+    loadConfig(fileName, configMap);
+    updateUI(configMap);
 }
 
 void MainWindow::saveConfig() {
@@ -103,9 +99,9 @@ void MainWindow::saveConfig() {
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::updateUI(int width, int height, int x, int y, int r) {
-    drawWidget->resize(width, height);
-    controls->setX(x);
-    controls->setY(y);
-    controls->setR(r);
+void MainWindow::updateUI(QMap<QString, int>& map) {
+    drawWidget->resize(map["width"], map["height"]);
+    controls->setX(map["x"]);
+    controls->setY(map["y"]);
+    controls->setR(map["r"]);
 }

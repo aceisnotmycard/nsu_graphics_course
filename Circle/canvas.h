@@ -9,6 +9,7 @@ class Canvas : public QWidget
 {
 public:
     Canvas(Circle* circle);
+    void capture(QString filename, int height, int width);
 private:
     Circle* circle;
 protected:

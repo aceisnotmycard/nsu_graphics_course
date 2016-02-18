@@ -22,17 +22,6 @@ DrawWidget::DrawWidget(QWidget *parent) : QWidget(parent) {
 
 void DrawWidget::capture(QString fileName)
 {
-    QImage backBuffer(width(), height(), QImage::Format_RGB888);
-
-    uchar* pubBuffer = backBuffer.bits();
-    if (!pubBuffer) {
-      return;
-    }
-    memset(pubBuffer, qRgb(0,0,0), backBuffer.byteCount());
-    if (circle) {
-      circle->draw(&backBuffer);
-    }
-    backBuffer.save(fileName, "png");
 }
 
 void DrawWidget::setX(int x) {
