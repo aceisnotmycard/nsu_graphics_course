@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     drawwidget.cpp \
     circle.cpp \
     controlblock.cpp \
-    controls.cpp
+    controls.cpp \
+    canvas.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
     circle.h \
     controlblock.h \
-    controls.h
+    controls.h \
+    canvas.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
 
 CONFIG += c++11

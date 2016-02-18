@@ -16,7 +16,9 @@ public:
     void setY(int value);
     void setR(int value);
 
-
+    int getX();
+    int getY();
+    int getR();
 private:
     ControlBlock* xBlock;
     ControlBlock* yBlock;

@@ -2,6 +2,7 @@
 #define DRAWWIDGET_H
 
 #include <QWidget>
+#include "canvas.h"
 #include "circle.h"
 
 class DrawWidget : public QWidget
@@ -9,17 +10,16 @@ class DrawWidget : public QWidget
   Q_OBJECT
 public:
   explicit DrawWidget(QWidget *parent = 0);
-
+  void capture(QString fileName);
 signals:
 
 public slots:
   void setX(int x);
   void setY(int y);
   void setR(int r);
-protected:
-  void paintEvent(QPaintEvent *event);
 private:
   Circle* circle;
+  Canvas* canvas;
 };
 
 #endif // DRAWWIDGET_H

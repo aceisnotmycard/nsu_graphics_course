@@ -1,6 +1,7 @@
 #include "controls.h"
 
 #include <QVBoxLayout>
+#include <QGroupBox>
 #include <functional>
 
 const char* Controls::X_LABEL = "Pos X";
@@ -28,12 +29,20 @@ Controls::Controls(QWidget* parent,
     rBlock->setValue(R_START);
     rBlock->setLabel(R_LABEL);
 
-    auto vBoxLayout = new QVBoxLayout();
-    vBoxLayout->addWidget(xBlock);
-    vBoxLayout->addWidget(yBlock);
-    vBoxLayout->addWidget(rBlock);
+    auto box = new QGroupBox("Controls");
+    auto boxWrapper = new QVBoxLayout();
+    box->setStyleSheet("QGroupBox { border: 2px solid gray; border-radius: 4px; }");
 
-    setLayout(vBoxLayout);
+    auto layout = new QGridLayout();
+    layout->addWidget(xBlock, 0, 0);
+    layout->addWidget(yBlock, 1, 0);
+    layout->addWidget(rBlock, 2, 0);
+
+    box->setLayout(layout);
+    boxWrapper->addWidget(box);
+    setLayout(boxWrapper);
+
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 }
 
 void Controls::setX(int value)
@@ -49,4 +58,19 @@ void Controls::setY(int value)
 void Controls::setR(int value)
 {
     rBlock->setValue(value);
+}
+
+int Controls::getX()
+{
+    return xBlock->getValue();
+}
+
+int Controls::getY()
+{
+    return yBlock->getValue();
+}
+
+int Controls::getR()
+{
+    return rBlock->getValue();
 }

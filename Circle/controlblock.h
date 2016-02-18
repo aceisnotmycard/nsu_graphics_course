@@ -22,6 +22,7 @@ signals:
 public slots:
     void setValue(int value);
     void upCall(int);
+    int getValue();
 private:
     QLabel* label;
     QSpinBox* spinBox;

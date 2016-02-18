@@ -29,7 +29,7 @@ void Circle::draw(QImage *pBackBuffer) {
     int delta_y = center_y + pBackBuffer->height() / 2;
     for (int y = fmax(0, -r + delta_y); y < fmin(pBackBuffer->height(), delta_y + r); y++) {
         for (int x = fmax(0, -r + delta_x); x < fmin(pBackBuffer->width(), delta_x + r); x++) {
-            if (r*r >= (delta_x - x)*(delta_x - x) + (delta_y - y)*(delta_y - y)) {
+            if (r*r >= (delta_x-x) * (delta_x-x) + (delta_y-y) * (delta_y-y)) {
                 memset(bits + (y * pBackBuffer->bytesPerLine()) + x*3*sizeof(uchar), qRgb(255,255,255), sizeof(uchar)*3);
             }
         }

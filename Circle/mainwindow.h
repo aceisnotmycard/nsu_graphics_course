@@ -5,9 +5,6 @@
 #include "drawwidget.h"
 #include "controls.h"
 
-namespace Ui {
-    class MainWindow;
-}
 
 class MainWindow : public QMainWindow
 {
@@ -18,14 +15,14 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
     DrawWidget* drawWidget;
     Controls* controls;
     void updateUI(int width, int height, int x, int y, int r);
+    void loadConfig(QString fileName);
 
 private slots:
     void saveConfig();
-    void loadConfig();
+    void openConfig();
 };
 
 #endif // MAINWINDOW_H

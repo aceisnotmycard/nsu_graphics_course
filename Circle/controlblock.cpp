@@ -43,4 +43,9 @@ void ControlBlock::upCall(int val)
     callback(val);
 }
 
+int ControlBlock::getValue()
+{
+    return slider->value();
+}
+
 
