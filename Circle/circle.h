@@ -2,6 +2,7 @@
 #define CIRCLE_H
 
 #include <QObject>
+#include <QImage>
 
 class Circle : public QObject
 {

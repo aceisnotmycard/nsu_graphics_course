@@ -10,9 +10,6 @@ class DrawWidget : public QWidget
   Q_OBJECT
 public:
   explicit DrawWidget(QWidget *parent = 0);
-  void capture(QString fileName);
-signals:
-
 public slots:
   void setX(int x);
   void setY(int y);

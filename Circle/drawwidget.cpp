@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <QJsonArray>
 
 DrawWidget::DrawWidget(QWidget *parent) : QWidget(parent) {
 
@@ -18,10 +19,6 @@ DrawWidget::DrawWidget(QWidget *parent) : QWidget(parent) {
     box->setLayout(boxLayout);
     layout->addWidget(box);
     this->setLayout(layout);
-}
-
-void DrawWidget::capture(QString fileName)
-{
 }
 
 void DrawWidget::setX(int x) {
