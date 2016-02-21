@@ -1,11 +1,12 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <QJsonDocument>
+#include <QMap>
 
-class Config
-{
-public:
-    Config();
-};
+namespace Config {
+void load(QString fileName, QMap<QString, int>& map);
+QJsonDocument* save(int x, int y, int r, int height, int width);
+}
 
 #endif // CONFIG_H

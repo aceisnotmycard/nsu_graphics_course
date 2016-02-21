@@ -12,13 +12,15 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += canvas.h circle.h controlblock.h controls.h drawwidget.h mainwindow.h
+HEADERS += canvas.h circle.h controlblock.h controls.h drawwidget.h mainwindow.h \
+    config.h
 SOURCES += canvas.cpp \
            circle.cpp \
            controlblock.cpp \
            controls.cpp \
            drawwidget.cpp \
            main.cpp \
-           mainwindow.cpp
+           mainwindow.cpp \
+    config.cpp
 
 CONFIG += c++11

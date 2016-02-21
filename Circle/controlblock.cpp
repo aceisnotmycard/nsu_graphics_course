@@ -15,7 +15,7 @@ ControlBlock::ControlBlock(QWidget *parent) : QWidget(parent)
     gridLayout->addWidget(slider, 1, 1, 1, 2);
     setLayout(gridLayout);
 
-    connect(slider, SIGNAL(valueChanged(int)), spinBox, SLOT(setValue(int)));
+    connect(slider, &QSlider::valueChanged, spinBox, &QSpinBox::setValue);
     connect(spinBox, SIGNAL(valueChanged(int)), slider, SLOT(setValue(int)));
     connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
 }

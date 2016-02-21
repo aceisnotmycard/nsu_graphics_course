@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "drawwidget.h"
+#include "config.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -13,7 +14,6 @@
 #include <QDebug>
 #include <QMenuBar>
 
-// lambda -> slot/signal
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     auto hBoxLayout = new QHBoxLayout();
@@ -33,29 +33,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     menu->addAction(actionSave);
     menu->addAction(actionLoad);
 
-    connect(actionLoad, SIGNAL(triggered(bool)), this, SLOT(openConfig()));
-    connect(actionSave, SIGNAL(triggered(bool)), this, SLOT(saveConfig()));
+    connect(actionLoad, &QAction::triggered, this, &MainWindow::openConfig);
+    connect(actionSave, &QAction::triggered, this, &MainWindow::saveConfig);
 
     connect(controls, &Controls::xChanged, drawWidget, &DrawWidget::setX);
     connect(controls, &Controls::yChanged, drawWidget, &DrawWidget::setY);
     connect(controls, &Controls::rChanged, drawWidget, &DrawWidget::setR);
 }
 
-void MainWindow::loadConfig(QString fileName, QMap<QString, int>& map) {
-
-    QFile saveFile(fileName);
-    saveFile.open(QFile::ReadOnly | QFile::Text);
-    QByteArray saveData = saveFile.readAll();
-    QJsonDocument jsonSave(QJsonDocument::fromJson(saveData));
-
-    QJsonObject saveObject = jsonSave.object();
-
-    map["width"] = saveObject["panel"].toObject()["size"].toObject()["x"].toInt();
-    map["height"] = saveObject["panel"].toObject()["size"].toObject()["y"].toInt();
-    map["x"] = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["x"].toInt();
-    map["y"] = saveObject["circles"].toArray()[0].toObject()["position"].toObject()["y"].toInt();
-    map["r"] = saveObject["circles"].toArray()[0].toObject()["R"].toInt();
-}
 
 void MainWindow::openConfig() {
     QString fileName = QFileDialog::getOpenFileName(
@@ -63,7 +48,7 @@ void MainWindow::openConfig() {
     );
     if (fileName.isEmpty()) return;
      QMap<QString, int> configMap;
-    loadConfig(fileName, configMap);
+    Config::load(fileName, configMap);
     updateUI(configMap);
 }
 
@@ -76,28 +61,12 @@ void MainWindow::saveConfig() {
     QFile saveFile(fileName);
     saveFile.open(QFile::WriteOnly | QFile::Text);
 
-    QJsonObject jsonObject;
-    QJsonArray jsonCircles;
-    QJsonObject jsonCircle;
-    QJsonObject jsonPosition;
-    QJsonObject jsonPanel;
-    QJsonObject jsonSize;
-
-    jsonPosition["x"] = controls->getX();
-    jsonPosition["y"] = controls->getY();
-    jsonCircle["R"] = controls->getR();
-    jsonCircle["position"] = jsonPosition;
-    jsonCircles.append(jsonCircle);
-
-    jsonSize["x"] = drawWidget->height();
-    jsonSize["y"] = drawWidget->width();
-    jsonPanel["size"] = jsonSize;
-
-    jsonObject["circles"] = jsonCircles;
-    jsonObject["panel"] = jsonPanel;
-
-    QJsonDocument jsonDocument(jsonObject);
-    saveFile.write(jsonDocument.toJson());
+    auto jsonDocument = Config::save(controls->getX(),
+                                     controls->getY(),
+                                     controls->getR(),
+                                     drawWidget->height(),
+                                     drawWidget->width());
+    saveFile.write(jsonDocument->toJson());
 }
 
 MainWindow::~MainWindow() {}

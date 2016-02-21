@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "config.h"
 #include <QApplication>
 #include <QFile>
 #include <QJsonDocument>
@@ -11,13 +12,12 @@ int main(int argc, char *argv[])
 {
     if (argc > 1) {
         QMap<QString, int> configMap;
-        MainWindow::loadConfig(QString(argv[1]), configMap);
+        Config::load(QString(argv[1]), configMap);
         Circle circle;
         circle.setX(configMap["x"]);
         circle.setY(configMap["y"]);
         circle.setR(configMap["r"]);
         Canvas::capture(&circle,"test.png", configMap["height"], configMap["width"]);
-
         return 0;
     }
     QApplication a(argc, argv);
