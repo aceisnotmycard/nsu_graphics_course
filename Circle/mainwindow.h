@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void loadConfig(QString fileName, QMap<QString, int>& map);
+    static void loadConfig(QString fileName, QMap<QString, int>& map);
 
 private:
     DrawWidget* drawWidget;

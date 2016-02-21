@@ -8,14 +8,15 @@ const char* Controls::X_LABEL = "Pos X";
 const char* Controls::Y_LABEL = "Pos Y";
 const char* Controls::R_LABEL = "Radius";
 
-Controls::Controls(QWidget* parent,
-                   std::function<void(int)> xCallback,
-                   std::function<void(int)> yCallback,
-                   std::function<void(int)> rCallback) : QWidget(parent)
+Controls::Controls(QWidget* parent) : QWidget(parent)
 {
-    xBlock = new ControlBlock(this, xCallback);
-    yBlock = new ControlBlock(this, yCallback);
-    rBlock = new ControlBlock(this, rCallback);
+    xBlock = new ControlBlock(this);
+    yBlock = new ControlBlock(this);
+    rBlock = new ControlBlock(this);
+
+    connect(xBlock, &ControlBlock::valueChanged, this, &Controls::xChanged);
+    connect(yBlock, &ControlBlock::valueChanged, this, &Controls::yChanged);
+    connect(rBlock, &ControlBlock::valueChanged, this, &Controls::rChanged);
 
     xBlock->setRange(X_MIN, X_MAX);
     xBlock->setValue(X_START);

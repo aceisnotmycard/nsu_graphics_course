@@ -13,14 +13,13 @@
 #include <QDebug>
 #include <QMenuBar>
 
+// lambda -> slot/signal
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     auto hBoxLayout = new QHBoxLayout();
     auto centralWidget = new QWidget(this);
     drawWidget = new DrawWidget(this);
-    controls = new Controls(this, [&](int x) { this->drawWidget->setX(x); },
-                                  [&](int y) { this->drawWidget->setY(y); },
-                                  [&](int r) { this->drawWidget->setR(r); });
+    controls = new Controls(this);
     hBoxLayout->addWidget(drawWidget);
     hBoxLayout->addWidget(controls, 0, Qt::AlignTop);
 
@@ -36,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     connect(actionLoad, SIGNAL(triggered(bool)), this, SLOT(openConfig()));
     connect(actionSave, SIGNAL(triggered(bool)), this, SLOT(saveConfig()));
+
+    connect(controls, &Controls::xChanged, drawWidget, &DrawWidget::setX);
+    connect(controls, &Controls::yChanged, drawWidget, &DrawWidget::setY);
+    connect(controls, &Controls::rChanged, drawWidget, &DrawWidget::setR);
 }
 
 void MainWindow::loadConfig(QString fileName, QMap<QString, int>& map) {

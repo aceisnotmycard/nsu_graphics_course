@@ -9,8 +9,9 @@ class Canvas : public QWidget
 {
 public:
     Canvas(Circle* circle);
-    void capture(QString filename, int height, int width);
+    static void capture(Circle* circle, QString filename, int height, int width);
 private:
+    static void draw(QImage& backBuffer, Circle* cirlce);
     Circle* circle;
 protected:
     void paintEvent(QPaintEvent *event);

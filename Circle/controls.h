@@ -8,10 +8,7 @@ class Controls : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Controls(QWidget* parent=0 ,
-                      std::function<void(int)> xCallback=0,
-                      std::function<void(int)> yCallback=0,
-                      std::function<void(int)> rCallback=0);
+    explicit Controls(QWidget* parent=0);
     void setX(int value);
     void setY(int value);
     void setR(int value);
@@ -19,6 +16,11 @@ public:
     int getX();
     int getY();
     int getR();
+
+signals:
+    void xChanged(int x);
+    void yChanged(int y);
+    void rChanged(int r);
 private:
     ControlBlock* xBlock;
     ControlBlock* yBlock;

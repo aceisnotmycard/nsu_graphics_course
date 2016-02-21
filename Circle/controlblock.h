@@ -14,20 +14,19 @@ class ControlBlock : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ControlBlock(QWidget* parent=0, std::function<void(int)> callback=0);
+    explicit ControlBlock(QWidget* parent=0);
     void setLabel(const QString& text);
     void setRange(int min, int max);
 signals:
     void valueChanged(int value);
+
 public slots:
     void setValue(int value);
-    void upCall(int);
     int getValue();
 private:
     QLabel* label;
     QSpinBox* spinBox;
     QSlider* slider;
-    std::function<void(int)> callback;
 };
 
 #endif // CONTROLBLOCK_H

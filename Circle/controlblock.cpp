@@ -3,9 +3,8 @@
 #include <QGridLayout>
 #include <functional>
 
-ControlBlock::ControlBlock(QWidget *parent, std::function<void(int)> callback) : QWidget(parent)
+ControlBlock::ControlBlock(QWidget *parent) : QWidget(parent)
 {
-    this->callback = callback;
     auto gridLayout = new QGridLayout();
     slider = new QSlider(Qt::Horizontal);
     spinBox = new QSpinBox();
@@ -18,7 +17,7 @@ ControlBlock::ControlBlock(QWidget *parent, std::function<void(int)> callback) :
 
     connect(slider, SIGNAL(valueChanged(int)), spinBox, SLOT(setValue(int)));
     connect(spinBox, SIGNAL(valueChanged(int)), slider, SLOT(setValue(int)));
-    connect(slider, SIGNAL(valueChanged(int)), this, SLOT(upCall(int)));
+    connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
 }
 
 void ControlBlock::setLabel(const QString& text)
@@ -36,11 +35,7 @@ void ControlBlock::setValue(int value)
 {
     slider->setValue(value);
     spinBox->setValue(value);
-}
-
-void ControlBlock::upCall(int val)
-{
-    callback(val);
+    emit valueChanged(value);
 }
 
 int ControlBlock::getValue()
