@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         circle.setX(configMap["x"]);
         circle.setY(configMap["y"]);
         circle.setR(configMap["r"]);
-        Canvas::capture(&circle,"test.png", configMap["height"], configMap["width"]);
+        Canvas::capture(&circle,argv[2], configMap["height"], configMap["width"]);
         return 0;
     }
     QApplication a(argc, argv);
