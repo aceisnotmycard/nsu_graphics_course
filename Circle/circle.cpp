@@ -17,7 +17,6 @@ void Circle::setR(int r) {
     this->r = r;
 }
 
-// TODO: сделать построчно
 void Circle::draw(QImage *pBackBuffer) {
 
     if (!pBackBuffer) {

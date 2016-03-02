@@ -21,6 +21,10 @@ DrawWidget::DrawWidget(QWidget *parent) : QWidget(parent) {
     this->setLayout(layout);
 }
 
+Canvas* DrawWidget::getCanvas() {
+    return canvas;
+}
+
 void DrawWidget::setX(int x) {
     circle->setX(x);
     canvas->repaint();

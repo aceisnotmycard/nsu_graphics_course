@@ -1,17 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "controlpanel.h"
+#include "drawwidget.h"
+#include "scenecontroller.h"
+
 #include <QMainWindow>
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(SceneController *sceneController, QWidget *parent = 0);
 
 signals:
 
 public slots:
+private:
+    ControlPanel*   controlPanel;
+    DrawWidget*     drawWidget;
 };
 
 #endif // MAINWINDOW_H

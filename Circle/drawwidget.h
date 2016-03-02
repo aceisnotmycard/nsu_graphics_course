@@ -9,7 +9,8 @@ class DrawWidget : public QWidget
 {
   Q_OBJECT
 public:
-  explicit DrawWidget(QWidget *parent = 0);
+    explicit DrawWidget(QWidget *parent = 0);
+    Canvas *getCanvas();
 public slots:
   void setX(int x);
   void setY(int y);

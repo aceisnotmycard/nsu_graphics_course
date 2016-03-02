@@ -1,6 +1,6 @@
 #include "consolecontroller.h"
 
-ConsoleController::ConsoleController()
+int ConsoleController::start(int argc, char** argv)
 {
 
 }

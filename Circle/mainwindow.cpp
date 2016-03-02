@@ -47,7 +47,7 @@ void MainWindow::openConfig() {
         this, tr("Load file"), QDir::currentPath(), tr("All files (*.json)")
     );
     if (fileName.isEmpty()) return;
-     QMap<QString, int> configMap;
+    QMap<QString, int> configMap;
     Config::load(fileName, configMap);
     updateUI(configMap);
 }
