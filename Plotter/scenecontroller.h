@@ -20,8 +20,8 @@ public slots:
     void updateY2(int y2);
 private:
     Canvas* canvas;
-    std::shared_ptr<IDrawable> circle1;
-    std::shared_ptr<IDrawable> circle2;
+    std::shared_ptr<Circle> circle1;
+    std::shared_ptr<Circle> circle2;
 };
 
 #endif // SCENECONTROLLER_H

@@ -28,7 +28,7 @@ void Circle::draw(QImage *pBackBuffer) const
         int w = width(y, r);
         int start_x = (delta_x-w < 0) ? 0 : std::min(pBackBuffer->width(), delta_x-w);
         int end_x = (delta_x+w > pBackBuffer->width()) ? pBackBuffer->width() : std::max(0, delta_x + w);
-        drawHorizontalLine(y, start_x, end_x-start_x, qRgb(255,255,255));
+        drawHorizontalLine(y, start_x, end_x-start_x, qRgb(0, 0, 0));
     }
 }
 
