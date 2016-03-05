@@ -26,7 +26,7 @@ void Canvas::draw(QImage& backBuffer, Circle* circle)
     if (!pubBuffer) {
         return;
     }
-    memset(pubBuffer, qRgb(0, 0, 0), backBuffer.byteCount());
+    memset(pubBuffer, qRgb(255, 255, 255), backBuffer.byteCount());
     if (circle) {
         circle->draw(&backBuffer);
     }

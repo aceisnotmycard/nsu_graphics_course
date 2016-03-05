@@ -13,6 +13,8 @@ public:
 
     void setX(int x) { center_x = x; }
     void setY(int y) { center_y = y; }
+    int getX() const { return center_x; }
+    int getY() const { return center_y; }
 private:
   int center_x;
   int center_y;

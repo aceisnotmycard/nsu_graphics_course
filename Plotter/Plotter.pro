@@ -18,7 +18,9 @@ SOURCES += main.cpp \
     drawwidget.cpp \
     canvas.cpp \
     circle.cpp \
-    scenecontroller.cpp
+    scenecontroller.cpp \
+    lemniscate.cpp \
+    point.cpp
 
 HEADERS += \
     controller.h \
@@ -31,4 +33,6 @@ HEADERS += \
     canvas.h \
     drawable.h \
     circle.h \
-    scenecontroller.h
+    scenecontroller.h \
+    lemniscate.h \
+    point.h

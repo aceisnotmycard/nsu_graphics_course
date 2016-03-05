@@ -9,7 +9,7 @@ DrawWidget::DrawWidget(QWidget *parent) : QWidget(parent) {
 
     circle = new Circle(this);
 
-    auto box = new QGroupBox("Draw Panel");
+    auto box = new QGroupBox();
     auto layout = new QVBoxLayout();
     auto boxLayout = new QVBoxLayout();
     canvas = new Canvas(circle);

@@ -23,4 +23,4 @@ SOURCES += canvas.cpp \
            mainwindow.cpp \
            config.cpp
 
-CONFIG += c++14
+CONFIG += c++11

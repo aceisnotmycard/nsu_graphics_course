@@ -4,6 +4,7 @@
 #include "canvas.h"
 #include "circle.h"
 #include "drawable.h"
+#include "lemniscate.h"
 
 
 
@@ -22,6 +23,7 @@ private:
     Canvas* canvas;
     std::shared_ptr<Circle> circle1;
     std::shared_ptr<Circle> circle2;
+    std::shared_ptr<Lemniscate> lemniscate;
 };
 
 #endif // SCENECONTROLLER_H
