@@ -19,6 +19,7 @@ private:
     Point findStartPoint() const;
     Point findNextPoint(const Point& current) const;
     int error;
+    std::pair<Point, int> findNextPoint(const Point &current, int prev_error) const;
 };
 
 #endif // LEMINISCATE_H

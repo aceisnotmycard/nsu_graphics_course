@@ -5,6 +5,7 @@
 
 #include <QDebug>
 
+
 Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
     : focus1(x1, y1), focus2(x2, y2)
 {
@@ -13,33 +14,60 @@ Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
 
 void Lemniscate::draw(QImage *pBackBuffer) const
 {
-    Point p = findStartPoint();
-    qDebug() << p.desc();
-    p.draw(pBackBuffer);
+    Point cur = findStartPoint();
+    int error = 1000;
+    qDebug() << cur.desc();
+    cur.draw(pBackBuffer);
+    Point center = (focus1 - focus2).shift();
+//    while ((cur - center).absSquared() > 2) {
+//        auto next = findNextPoint(cur, error);
+//        cur = next.first;
+//        error = next.second;
+//    }
+    for (int i = 0; i < 100; ++i) {
+        auto next = findNextPoint(cur, error);
+        cur = next.first;
+        error = next.second;
+        cur.draw(pBackBuffer);
+    }
 }
 
-Point Lemniscate::findNextPoint(const Point& current) const {
+std::pair<Point, int> Lemniscate::findNextPoint(const Point& current, int prev_error) const {
+    std::map<Point, int> neighbours = {
+        { Point(-1, -1),    0 },
+        { Point(-1, 0),     0 },
+        { Point(-1, 1),     0 },
+        { Point(0, -1),     0 },
+        { Point(0, 1),      0 },
+        { Point(1, -1),     0 },
+        { Point(1, 0),      0 },
+        { Point(1, 1),      0 }
+    };
+
+    for (auto& n : neighbours) {
+        Point maybeNext = n.first + current;
+        n.second = (maybeNext - focus1).absSquared() * (maybeNext - focus2).absSquared() - (focus1 - focus2).shift().absSquared();
+    }
+    auto it = std::min_element(neighbours.begin(), neighbours.end(), [](std::pair<Point, int>& l, std::pair<Point, int>& r) -> bool {
+        return l.second < r.second && (l.second * prev_error) < 0;
+    });
+
+    return *it;
 }
 
 Point Lemniscate::findStartPoint() const {
-    qDebug() << "Lemniscate::findStartPoint() start";
     Point c = (focus1 - focus2).shift().abs();
-    qDebug() << "c:\t" << c.desc();
     Point left = focus1 - c;
-    qDebug() << "left:\t" << left.desc();
     Point right = focus1;
-    qDebug() << "right:\t" << right.desc();
     Point center = (left + right).shift();
     while ((right-left).absSquared() > 2) {
         center = (left + right).shift();
-        qDebug() << "center:\t" << center.desc();
         if (center.absSquared() < 2 * c.absSquared()) {
             left = center;
         } else {
             right = center;
         }
     }
-    qDebug() << "Lemniscate::findStartPoint() end";
     return center;
 }
 
