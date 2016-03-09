@@ -2,6 +2,7 @@
 #include "point.h"
 #include <cmath>
 #include <QString>
+#include <limits.h>
 
 #include <QDebug>
 
@@ -9,66 +10,65 @@
 Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
     : focus1(x1, y1), focus2(x2, y2)
 {
-    error = 0;
+
 }
 
 void Lemniscate::draw(QImage *pBackBuffer) const
 {
-    Point cur = findStartPoint();
-    int error = 1000;
-    qDebug() << cur.desc();
-    cur.draw(pBackBuffer);
-    Point center = (focus1 - focus2).shift();
-//    while ((cur - center).absSquared() > 2) {
-//        auto next = findNextPoint(cur, error);
-//        cur = next.first;
-//        error = next.second;
-//    }
-    for (int i = 0; i < 100; ++i) {
-        auto next = findNextPoint(cur, error);
-        cur = next.first;
-        error = next.second;
+    auto points = findStartPoint();
+    points.first.draw(pBackBuffer);
+    points.second.draw(pBackBuffer);
+    Point dir(1,1);
+    Point cur(points.second.x, points.second.y);
+    while ((cur - points.first).absSquared() > 2) {
+        auto pair = findNextPoint(cur, dir);
+        cur = pair.first;
+        dir = pair.second;
         cur.draw(pBackBuffer);
     }
+    Point cur2(points.second.x, points.second.y);
 }
 
-std::pair<Point, int> Lemniscate::findNextPoint(const Point& current, int prev_error) const {
-    std::map<Point, int> neighbours = {
-        { Point(-1, -1),    0 },
-        { Point(-1, 0),     0 },
-        { Point(-1, 1),     0 },
-        { Point(0, -1),     0 },
-        { Point(0, 1),      0 },
-        { Point(1, -1),     0 },
-        { Point(1, 0),      0 },
-        { Point(1, 1),      0 }
-    };
+long long Lemniscate::distanceToFocuses(const Point& p) const {
+    return 16 * (p-focus1).absSquared() * (p-focus2).absSquared();
+}
 
-    for (auto& n : neighbours) {
-        Point maybeNext = n.first + current;
-        n.second = (maybeNext - focus1).absSquared() * (maybeNext - focus2).absSquared() - (focus1 - focus2).shift().absSquared();
+long long Lemniscate::betweenFocuses() const {
+    return (focus1 - focus2).absSquared() * (focus1 - focus2).absSquared();
+}
+
+std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
+
+    long long minDistance = LLONG_MAX;
+
+    Point nextDir(0,0);
+    for(auto& n : neighbours) {
+        // checking for correct direction
+        if (prevDir * n > 0) {
+            if (llabs(distanceToFocuses(n+prev) - betweenFocuses()) < minDistance) {
+                minDistance = distanceToFocuses(n+prev) - betweenFocuses();
+                nextDir = n;
+            }
+        }
     }
-    auto it = std::min_element(neighbours.begin(), neighbours.end(), [](std::pair<Point, int>& l, std::pair<Point, int>& r) -> bool {
-        return l.second < r.second && (l.second * prev_error) < 0;
-    });
-
-    return *it;
+    return { nextDir + prev, nextDir };
 }
 
-Point Lemniscate::findStartPoint() const {
-    Point c = (focus1 - focus2).shift().abs();
-    Point left = focus1 - c;
+std::pair<Point, Point> Lemniscate::findStartPoint() const {
+    Point c = (focus1 - focus2).abs();
+    qDebug() << c.desc();
+    Point left = focus1-c;
     Point right = focus1;
-    Point center = (left + right).shift();
-    while ((right-left).absSquared() > 2) {
+    Point center(0, 0);
+    while ((left - right).absSquared() > 2 ) {
         center = (left + right).shift();
-        if (center.absSquared() < 2 * c.absSquared()) {
+        if (distanceToFocuses(center) > betweenFocuses()) {
             left = center;
         } else {
             right = center;
         }
     }
-    return center;
+    return { center, focus1 + focus2 - center };
 }
 
 QString Lemniscate::desc() const
@@ -78,3 +78,15 @@ QString Lemniscate::desc() const
                 QString::number(focus2.x), QString::number(focus2.y)
     );
 }
+
+const std::vector<Point> Lemniscate::neighbours = {
+        Point(0, 1),
+        Point(1, 1),
+        Point(1, 0),
+        Point(1, -1),
+        Point(0, -1),
+        Point(-1, -1),
+        Point(-1, 0),
+        Point(-1, 1)
+    };
+

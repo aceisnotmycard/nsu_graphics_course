@@ -16,10 +16,12 @@ public:
 private:
     Point focus1;
     Point focus2;
-    Point findStartPoint() const;
-    Point findNextPoint(const Point& current) const;
-    int error;
-    std::pair<Point, int> findNextPoint(const Point &current, int prev_error) const;
+    long long distanceToFocuses(const Point &p) const;
+    std::pair<Point, Point> findStartPoint() const;
+    std::pair<Point, Point> findNextPoint(const Point& prev, const Point& prevDir) const;
+    long long betweenFocuses() const;
+    static const std::vector<Point> neighbours;
+
 };
 
 #endif // LEMINISCATE_H

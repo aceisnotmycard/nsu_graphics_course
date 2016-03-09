@@ -14,11 +14,16 @@ public:
     virtual void draw(QImage *pBackBuffer) const;
     virtual QString desc() const;
 
-    int absSquared() const;
+    long long absSquared() const;
     Point abs() const;
+
+    void set(int newX, int newY);
 
     Point operator-(const Point& b) const;
     Point operator+(const Point& b) const;
+    long long operator*(const Point& b) const;
+    //Point operator=(const Point& b) const;
+    bool operator<(const Point& b) const;
     Point shift() const;
 
     int x;

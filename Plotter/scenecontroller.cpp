@@ -6,8 +6,8 @@ SceneController::SceneController()
 
 void SceneController::setCanvas(Canvas* c) {
     canvas = c;
-    circle1 = std::make_shared<Circle>(-15, 0, 2);
-    circle2 = std::make_shared<Circle>(15, 0, 2);
+    circle1 = std::make_shared<Circle>(-100, 0, 2);
+    circle2 = std::make_shared<Circle>(100, 0, 2);
     lemniscate = std::make_shared<Lemniscate>(circle1->getX(), circle1->getY(), circle2->getX(), circle2->getY());
     canvas->addDrawable(circle1);
     canvas->addDrawable(circle2);

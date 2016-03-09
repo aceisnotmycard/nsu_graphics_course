@@ -10,6 +10,21 @@ Point Point::operator+(const Point& b) const
     return Point(x + b.x, y + b.y);
 }
 
+long long Point::operator*(const Point &b) const
+{
+    return x * b.x + y * b.y;
+}
+
+//Point Point::operator=(const Point &b) const
+//{
+//    return Point(b.x, b.y);
+//}
+
+bool Point::operator<(const Point &b) const
+{
+    return x < b.x && y < b.y;
+}
+
 Point Point::shift() const
 {
     return Point(x >> 1, y >> 1);
@@ -27,7 +42,7 @@ QString Point::desc() const
     return QString("Point { %1 %2 }").arg(QString::number(x), QString::number(y));
 }
 
-int Point::absSquared() const
+long long Point::absSquared() const
 {
     return x*x + y*y;
 }
@@ -35,4 +50,10 @@ int Point::absSquared() const
 Point Point::abs() const
 {
     return Point(x > 0 ? x : -x, y > 0 ? y : -y);
+}
+
+void Point::set(int newX, int newY)
+{
+    this->x = newX;
+    this->y = newY;
 }
