@@ -13,20 +13,21 @@ Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
 void Lemniscate::draw(QImage *pBackBuffer) const {
     auto points = findStartPoints();
 
-    Point dir(1,0);
-    Point cur(points.first.x, points.first.y);
-    cur.draw(pBackBuffer);
-
-    // 'i' is a little hack to prevent program from infinite loop in some situations
-    int i = 0;
-    while ((cur - points.second).absSquared() > 1 && i++ < 5000) {
-        auto pair = findNextPoint(cur, dir);
-        cur = pair.first;
-        dir = pair.second;
-        cur.draw(pBackBuffer);
+    std::vector<std::pair<Point, Point>> pairs = {
+        { points.first, Point(-(points.first-focus2).y, ((points.first-focus2).x)) },
+        { points.first, Point((points.first-focus2).y, -((points.first-focus2).x)) },
+        { points.second, Point((points.second-focus2).y, -((points.second-focus2).x)) },
+        { points.second, Point(-(points.second-focus2).y, ((points.second-focus2).x)) }
+    };
+    for(auto pair : pairs) {
+        drawPart(pair.first, pair.second, pBackBuffer);
     }
-    i = 0;
-    while ((cur - points.first).absSquared() > 1 && i++ < 5000) {
+}
+
+void Lemniscate::drawPart(Point cur, Point dir, QImage *pBackBuffer) const {
+    Point center = (focus1 + focus2).shift();
+    int i = 0;
+    while ((cur - center).absSquared() > 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
@@ -45,10 +46,11 @@ long long Lemniscate::betweenFocuses() const {
 std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
 
     long long minDistance = LLONG_MAX;
+    long long maxScalar = 0;
     Point nextDir(0,0);
     for(auto& dir : directions) {
         // checking for correct direction
-        if (prevDir * dir > 0) {
+        if (prevDir * dir >= 1) {
             if (llabs(distanceToFocuses(dir+prev) - betweenFocuses()) < minDistance) {
                 minDistance = llabs(distanceToFocuses(dir+prev) - betweenFocuses());
                 nextDir = dir;
@@ -59,7 +61,7 @@ std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point
 }
 
 std::pair<Point, Point> Lemniscate::findStartPoints() const {
-    Point c = (focus1 - focus2).abs();
+    Point c = focus2 - focus1;
     Point left = focus1-c;
     Point right = focus1;
     Point center(0, 0);

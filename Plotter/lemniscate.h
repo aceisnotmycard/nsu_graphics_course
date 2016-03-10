@@ -26,6 +26,7 @@ private:
     long long betweenFocuses() const;
     static const std::vector<Point> directions;
 
+    void drawPart(Point start, Point dir, QImage *pBackBuffer) const;
 };
 
 #endif // LEMINISCATE_H
