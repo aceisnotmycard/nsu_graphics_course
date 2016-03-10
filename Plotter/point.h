@@ -21,6 +21,7 @@ public:
 
     Point operator-(const Point& b) const;
     Point operator+(const Point& b) const;
+    bool operator==(const Point& b) const;
     long long operator*(const Point& b) const;
     //Point operator=(const Point& b) const;
     bool operator<(const Point& b) const;

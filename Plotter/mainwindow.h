@@ -11,7 +11,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(SceneController *sceneController, QWidget *parent = 0);
+    explicit MainWindow(SceneController *sceneController, int width, int height, QWidget *parent = 0);
 
 signals:
 

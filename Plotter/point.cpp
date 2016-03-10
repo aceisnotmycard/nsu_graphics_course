@@ -10,6 +10,11 @@ Point Point::operator+(const Point& b) const
     return Point(x + b.x, y + b.y);
 }
 
+bool Point::operator==(const Point &b) const
+{
+    return x == b.x && y == b.y;
+}
+
 long long Point::operator*(const Point &b) const
 {
     return x * b.x + y * b.y;

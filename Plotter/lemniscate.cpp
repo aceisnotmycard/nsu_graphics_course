@@ -15,18 +15,26 @@ Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
 
 void Lemniscate::draw(QImage *pBackBuffer) const
 {
-    auto points = findStartPoint();
-    points.first.draw(pBackBuffer);
-    points.second.draw(pBackBuffer);
+    auto points = findStartPoints();
+
     Point dir(1,1);
-    Point cur(points.second.x, points.second.y);
-    while ((cur - points.first).absSquared() > 2) {
+    Point cur(points.first.x, points.first.y);
+    Point center = (focus1 + focus2).shift();
+    qDebug() << "Left bottom + right top";
+    cur.draw(pBackBuffer);
+    while ((cur - points.second).absSquared() > 1) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
         cur.draw(pBackBuffer);
     }
-    Point cur2(points.second.x, points.second.y);
+    qDebug() << "Right bottom + left top";
+    while ((cur - points.first).absSquared() > 1) {
+        auto pair = findNextPoint(cur, dir);
+        cur = pair.first;
+        dir = pair.second;
+                cur.draw(pBackBuffer);
+    }
 }
 
 long long Lemniscate::distanceToFocuses(const Point& p) const {
@@ -40,21 +48,21 @@ long long Lemniscate::betweenFocuses() const {
 std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
 
     long long minDistance = LLONG_MAX;
-
     Point nextDir(0,0);
-    for(auto& n : neighbours) {
+    for(auto& dir : directions) {
         // checking for correct direction
-        if (prevDir * n > 0) {
-            if (llabs(distanceToFocuses(n+prev) - betweenFocuses()) < minDistance) {
-                minDistance = distanceToFocuses(n+prev) - betweenFocuses();
-                nextDir = n;
+        if (prevDir * dir > 0) {
+            if (llabs(distanceToFocuses(dir+prev) - betweenFocuses()) < minDistance) {
+                minDistance = llabs(distanceToFocuses(dir+prev) - betweenFocuses());
+                nextDir = dir;
             }
         }
     }
+    qDebug() << nextDir.desc();
     return { nextDir + prev, nextDir };
 }
 
-std::pair<Point, Point> Lemniscate::findStartPoint() const {
+std::pair<Point, Point> Lemniscate::findStartPoints() const {
     Point c = (focus1 - focus2).abs();
     qDebug() << c.desc();
     Point left = focus1-c;
@@ -79,7 +87,7 @@ QString Lemniscate::desc() const
     );
 }
 
-const std::vector<Point> Lemniscate::neighbours = {
+const std::vector<Point> Lemniscate::directions = {
         Point(0, 1),
         Point(1, 1),
         Point(1, 0),

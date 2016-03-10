@@ -3,7 +3,7 @@
 
 #include <QVBoxLayout>
 
-MainWindow::MainWindow(SceneController* sceneController, QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(SceneController* sceneController, int width, int height, QWidget *parent) : QMainWindow(parent)
 {
     auto hBoxLayout = new QHBoxLayout();
     auto centralWidget = new QWidget(this);
@@ -20,5 +20,5 @@ MainWindow::MainWindow(SceneController* sceneController, QWidget *parent) : QMai
 
     centralWidget->setLayout(hBoxLayout);
     setCentralWidget(centralWidget);
-    resize(800, 480);
+    resize(width, height);
 }
