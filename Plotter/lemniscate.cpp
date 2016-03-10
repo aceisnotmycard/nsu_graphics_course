@@ -19,21 +19,25 @@ void Lemniscate::draw(QImage *pBackBuffer) const
 {
     auto points = findStartPoints();
 
-    Point dir(1,1);
+    Point dir(1,0);
     Point cur(points.first.x, points.first.y);
-    qDebug() << "Left bottom + right top";
+    qDebug() << "Drawing first part";
     cur.draw(pBackBuffer);
-    while ((cur - points.second).absSquared() > 1) {
+    int i = 0;
+    while ((cur - points.second).absSquared() > 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
+        qDebug() << "Next point: " << cur.desc() << " next dir: " << dir.desc();
         cur.draw(pBackBuffer);
     }
-    qDebug() << "Right bottom + left top";
-    while ((cur - points.first).absSquared() > 1) {
+    qDebug() << "Drawing second part";
+    i = 0;
+    while ((cur - points.first).absSquared() > 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
+        qDebug() << "Next point: " << cur.desc() << " next dir: " << dir.desc();
         cur.draw(pBackBuffer);
     }
 }
@@ -63,8 +67,8 @@ std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point
 }
 
 std::pair<Point, Point> Lemniscate::findStartPoints() const {
+    qDebug() << "Searching for start points...";
     Point c = (focus1 - focus2).abs();
-    qDebug() << c.desc();
     Point left = focus1-c;
     Point right = focus1;
     Point center(0, 0);
@@ -76,6 +80,7 @@ std::pair<Point, Point> Lemniscate::findStartPoints() const {
             right = center;
         }
     }
+    qDebug() << "Start point: " << center.desc();
     return { center, focus1 + focus2 - center };
 }
 
