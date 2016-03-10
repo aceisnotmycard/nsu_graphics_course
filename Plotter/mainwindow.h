@@ -19,6 +19,11 @@ public slots:
 private:
     ControlPanel*   controlPanel;
     DrawWidget*     drawWidget;
+
+    void updateUI(const QMap<QString, int>* config = 0);
+private slots:
+    void saveConfig();
+    void openConfig();
 };
 
 #endif // MAINWINDOW_H

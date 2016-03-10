@@ -13,13 +13,14 @@ Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
 
 }
 
+
+
 void Lemniscate::draw(QImage *pBackBuffer) const
 {
     auto points = findStartPoints();
 
     Point dir(1,1);
     Point cur(points.first.x, points.first.y);
-    Point center = (focus1 + focus2).shift();
     qDebug() << "Left bottom + right top";
     cur.draw(pBackBuffer);
     while ((cur - points.second).absSquared() > 1) {
@@ -58,7 +59,6 @@ std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point
             }
         }
     }
-    qDebug() << nextDir.desc();
     return { nextDir + prev, nextDir };
 }
 
@@ -84,7 +84,27 @@ QString Lemniscate::desc() const
     return QString("Leminiscate { (%1, %2), (%3, %4) }").arg(
                 QString::number(focus1.x), QString::number(focus1.y),
                 QString::number(focus2.x), QString::number(focus2.y)
-    );
+                );
+}
+
+void Lemniscate::setX1(int x1)
+{
+    focus1 = Point(x1, focus1.y);
+}
+
+void Lemniscate::setY1(int y1)
+{
+    focus1 = Point(focus1.x, y1);
+}
+
+void Lemniscate::setX2(int x2)
+{
+    focus2 = Point(x2, focus2.y);
+}
+
+void Lemniscate::setY2(int y2)
+{
+    focus2 = Point(focus2.x, y2);
 }
 
 const std::vector<Point> Lemniscate::directions = {

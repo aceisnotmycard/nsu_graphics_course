@@ -29,7 +29,7 @@ private:
 
     static const int    X1_MIN = -10000;
     static const int    X1_MAX = 10000;
-    static const int    X1_START = 0;
+    static const int    X1_START = -200;
     static const char*  X1_LABEL;
 
     static const int    Y1_MIN = -10000;
@@ -39,7 +39,7 @@ private:
 
     static const int    X2_MIN = -10000;
     static const int    X2_MAX = 10000;
-    static const int    X2_START = 0;
+    static const int    X2_START = 200;
     static const char*  X2_LABEL;
 
     static const int    Y2_MIN = -10000;

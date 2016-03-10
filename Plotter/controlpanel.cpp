@@ -46,3 +46,23 @@ ControlPanel::ControlPanel(QWidget *parent) : QWidget(parent)
 
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 }
+
+void ControlPanel::setX1(int x1)
+{
+    x1ControlBlock->setValue(x1);
+}
+
+void ControlPanel::setX2(int x2)
+{
+    x2ControlBlock->setValue(x2);
+}
+
+void ControlPanel::setY1(int y1)
+{
+    y1ControlBlock->setValue(y1);
+}
+
+void ControlPanel::setY2(int y2)
+{
+    y2ControlBlock->setValue(y2);
+}

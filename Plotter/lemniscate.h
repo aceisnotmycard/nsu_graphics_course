@@ -13,6 +13,10 @@ public:
     Lemniscate(int x1, int y1, int x2, int y2);
     virtual void draw(QImage *pBackBuffer) const;
     virtual QString desc() const;
+    void setX1(int x1);
+    void setY1(int y1);
+    void setX2(int x2);
+    void setY2(int y2);
 private:
     Point focus1;
     Point focus2;

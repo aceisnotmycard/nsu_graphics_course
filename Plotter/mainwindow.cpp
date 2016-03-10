@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "scenecontroller.h"
 
+#include <QAction>
 #include <QVBoxLayout>
+#include <QMenuBar>
 
 MainWindow::MainWindow(SceneController* sceneController, int width, int height, QWidget *parent) : QMainWindow(parent)
 {
@@ -13,6 +15,15 @@ MainWindow::MainWindow(SceneController* sceneController, int width, int height, 
     hBoxLayout->addWidget(drawWidget);
     hBoxLayout->addWidget(controlPanel, 0, Qt::AlignTop);
 
+    auto menu = menuBar()->addMenu(tr("File"));
+    auto actionLoad = new QAction(tr("Load"), this);
+    auto actionSave = new QAction(tr("Save"), this);
+    menu->addAction(actionSave);
+    menu->addAction(actionLoad);
+
+    connect(actionLoad, &QAction::triggered, this, &MainWindow::openConfig);
+    connect(actionSave, &QAction::triggered, this, &MainWindow::saveConfig);
+
     connect(controlPanel, &ControlPanel::x1Changed, sceneController, &SceneController::updateX1);
     connect(controlPanel, &ControlPanel::x2Changed, sceneController, &SceneController::updateX2);
     connect(controlPanel, &ControlPanel::y1Changed, sceneController, &SceneController::updateY1);
@@ -21,4 +32,24 @@ MainWindow::MainWindow(SceneController* sceneController, int width, int height, 
     centralWidget->setLayout(hBoxLayout);
     setCentralWidget(centralWidget);
     resize(width, height);
+    updateUI();
+}
+
+void MainWindow::openConfig() {
+
+}
+
+void MainWindow::saveConfig() {
+
+}
+
+void MainWindow::updateUI(const QMap<QString, int>* config) {
+    int x1 = -200;
+    int x2 = 200;
+    int y1 = 0;
+    int y2 = 0;
+    controlPanel->setX1(x1);
+    controlPanel->setX2(x2);
+    controlPanel->setY1(y1);
+    controlPanel->setY2(y2);
 }
