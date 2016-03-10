@@ -66,3 +66,23 @@ void ControlPanel::setY2(int y2)
 {
     y2ControlBlock->setValue(y2);
 }
+
+int ControlPanel::getX1()
+{
+    return x1ControlBlock->getValue();
+}
+
+int ControlPanel::getX2()
+{
+    return x2ControlBlock->getValue();
+}
+
+int ControlPanel::getY1()
+{
+    return y1ControlBlock->getValue();
+}
+
+int ControlPanel::getY2()
+{
+    return y2ControlBlock->getValue();
+}

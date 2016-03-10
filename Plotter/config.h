@@ -7,7 +7,7 @@
 namespace Config {
     QMap<QString, int>* load(const QString &fileName);
 
-    QJsonDocument* save(int x, int y, int r, int height, int width);
+    QJsonDocument* save(int x1, int y1, int x2, int y2, int height, int width);
 }
 
 #endif // CONFIG_H

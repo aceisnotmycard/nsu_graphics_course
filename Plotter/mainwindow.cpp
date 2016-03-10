@@ -1,9 +1,12 @@
 #include "mainwindow.h"
 #include "scenecontroller.h"
+#include "config.h"
 
 #include <QAction>
 #include <QVBoxLayout>
 #include <QMenuBar>
+#include <QFileDialog>
+#include <QDir>
 
 MainWindow::MainWindow(SceneController* sceneController, int width, int height, QWidget *parent) : QMainWindow(parent)
 {
@@ -36,11 +39,30 @@ MainWindow::MainWindow(SceneController* sceneController, int width, int height, 
 }
 
 void MainWindow::openConfig() {
-
+    QString fileName = QFileDialog::getOpenFileName(
+        this, tr("Load file"), QDir::currentPath(), tr("All files (*.json)")
+    );
+    if (fileName.isEmpty()) return;
+    auto configMap = Config::load(fileName);
+    updateUI(configMap);
 }
 
 void MainWindow::saveConfig() {
+    QString fileName = QFileDialog::getSaveFileName(
+        this, tr("Save file"), QDir::currentPath(), tr("All files (*.json)")
+    );
+    if (fileName.isEmpty()) return;
 
+    QFile saveFile(fileName);
+    saveFile.open(QFile::WriteOnly | QFile::Text);
+
+    auto jsonDocument = Config::save(controlPanel->getX1(),
+                                     controlPanel->getY1(),
+                                     controlPanel->getX2(),
+                                     controlPanel->getY2(),
+                                     drawWidget->height(),
+                                     drawWidget->width());
+    saveFile.write(jsonDocument->toJson());
 }
 
 void MainWindow::updateUI(const QMap<QString, int>* config) {
@@ -48,6 +70,13 @@ void MainWindow::updateUI(const QMap<QString, int>* config) {
     int x2 = 200;
     int y1 = 0;
     int y2 = 0;
+    if (config != nullptr) {
+        x1 = (*config)["x1"];
+        x2 = (*config)["x2"];
+        y1 = (*config)["y1"];
+        y2 = (*config)["y2"];
+        resize((*config)["width"], (*config)["height"]);
+    }
     controlPanel->setX1(x1);
     controlPanel->setX2(x2);
     controlPanel->setY1(y1);

@@ -20,7 +20,7 @@ private:
     ControlPanel*   controlPanel;
     DrawWidget*     drawWidget;
 
-    void updateUI(const QMap<QString, int>* config = 0);
+    void updateUI(const QMap<QString, int> *config = 0);
 private slots:
     void saveConfig();
     void openConfig();

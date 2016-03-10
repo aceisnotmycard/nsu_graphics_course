@@ -14,6 +14,11 @@ public:
     void setX2(int x2);
     void setY1(int y1);
     void setY2(int y2);
+
+    int getX1();
+    int getX2();
+    int getY1();
+    int getY2();
 signals:
     void x1Changed(int x1);
     void x2Changed(int x2);
