@@ -7,17 +7,17 @@ SceneController::SceneController()
 void SceneController::setCanvas(Canvas* c) {
     canvas = c;
 
-    circle1 = std::make_shared<Circle>(-200, 0, 2);
-    circle2 = std::make_shared<Circle>(200, 0, 2);
+    circle1 = std::make_shared<Circle>(0, 0, 2);
+    circle2 = std::make_shared<Circle>(0, 0, 2);
     lemniscate = std::make_shared<Lemniscate>(circle1->getX(), circle1->getY(), circle2->getX(), circle2->getY());
     verticalAxis = std::make_shared<Axis>(true);
     horizontalAxis = std::make_shared<Axis>(false);
 
-    canvas->addDrawable(circle1);
-    canvas->addDrawable(circle2);
-    canvas->addDrawable(lemniscate);
-    canvas->addDrawable(verticalAxis);
-    canvas->addDrawable(horizontalAxis);
+    std::vector<std::shared_ptr<IDrawable>> drawables = { circle1, circle2, lemniscate, verticalAxis, horizontalAxis };
+
+    for (auto drawable : drawables) {
+        canvas->addDrawable(drawable);
+    }
 }
 
 void SceneController::updateX1(int x1)

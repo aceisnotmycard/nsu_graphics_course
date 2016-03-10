@@ -20,11 +20,6 @@ long long Point::operator*(const Point &b) const
     return x * b.x + y * b.y;
 }
 
-//Point Point::operator=(const Point &b) const
-//{
-//    return Point(b.x, b.y);
-//}
-
 bool Point::operator<(const Point &b) const
 {
     return x < b.x && y < b.y;

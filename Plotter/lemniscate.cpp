@@ -21,23 +21,19 @@ void Lemniscate::draw(QImage *pBackBuffer) const
 
     Point dir(1,0);
     Point cur(points.first.x, points.first.y);
-    qDebug() << "Drawing first part";
     cur.draw(pBackBuffer);
     int i = 0;
     while ((cur - points.second).absSquared() > 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
-        qDebug() << "Next point: " << cur.desc() << " next dir: " << dir.desc();
         cur.draw(pBackBuffer);
     }
-    qDebug() << "Drawing second part";
     i = 0;
     while ((cur - points.first).absSquared() > 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
-        qDebug() << "Next point: " << cur.desc() << " next dir: " << dir.desc();
         cur.draw(pBackBuffer);
     }
 }
@@ -67,7 +63,6 @@ std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point
 }
 
 std::pair<Point, Point> Lemniscate::findStartPoints() const {
-    qDebug() << "Searching for start points...";
     Point c = (focus1 - focus2).abs();
     Point left = focus1-c;
     Point right = focus1;
@@ -80,7 +75,6 @@ std::pair<Point, Point> Lemniscate::findStartPoints() const {
             right = center;
         }
     }
-    qDebug() << "Start point: " << center.desc();
     return { center, focus1 + focus2 - center };
 }
 

@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     scenecontroller.cpp \
     lemniscate.cpp \
     point.cpp \
-    axis.cpp
+    axis.cpp \
+    config.cpp
 
 HEADERS += \
     controller.h \
@@ -37,4 +38,5 @@ HEADERS += \
     scenecontroller.h \
     lemniscate.h \
     point.h \
-    axis.h
+    axis.h \
+    config.h
