@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     circle.cpp \
     scenecontroller.cpp \
     lemniscate.cpp \
-    point.cpp
+    point.cpp \
+    axis.cpp
 
 HEADERS += \
     controller.h \
@@ -35,4 +36,5 @@ HEADERS += \
     circle.h \
     scenecontroller.h \
     lemniscate.h \
-    point.h
+    point.h \
+    axis.h

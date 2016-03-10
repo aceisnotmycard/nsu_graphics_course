@@ -1,6 +1,7 @@
 #ifndef SCENECONTROLLER_H
 #define SCENECONTROLLER_H
 
+#include "axis.h"
 #include "canvas.h"
 #include "circle.h"
 #include "drawable.h"
@@ -24,6 +25,8 @@ private:
     std::shared_ptr<Circle> circle1;
     std::shared_ptr<Circle> circle2;
     std::shared_ptr<Lemniscate> lemniscate;
+    std::shared_ptr<Axis> verticalAxis;
+    std::shared_ptr<Axis> horizontalAxis;
 };
 
 #endif // SCENECONTROLLER_H

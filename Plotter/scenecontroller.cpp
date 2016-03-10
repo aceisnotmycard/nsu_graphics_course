@@ -9,9 +9,13 @@ void SceneController::setCanvas(Canvas* c) {
     circle1 = std::make_shared<Circle>(-200, 0, 2);
     circle2 = std::make_shared<Circle>(200, 0, 2);
     lemniscate = std::make_shared<Lemniscate>(circle1->getX(), circle1->getY(), circle2->getX(), circle2->getY());
+    verticalAxis = std::make_shared<Axis>(true);
+    horizontalAxis = std::make_shared<Axis>(false);
     canvas->addDrawable(circle1);
     canvas->addDrawable(circle2);
     canvas->addDrawable(lemniscate);
+    canvas->addDrawable(verticalAxis);
+    canvas->addDrawable(horizontalAxis);
 }
 
 void SceneController::updateX1(int x1)
