@@ -33,7 +33,7 @@ void Lemniscate::draw(QImage *pBackBuffer) const
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
-                cur.draw(pBackBuffer);
+        cur.draw(pBackBuffer);
     }
 }
 

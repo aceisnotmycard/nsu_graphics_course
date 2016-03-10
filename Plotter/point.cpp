@@ -39,7 +39,9 @@ void Point::draw(QImage *pBackBuffer) const
 {
     int delta_x = x + pBackBuffer->width() / 2;
     int delta_y = y + pBackBuffer->height() / 2;
-    memset(pBackBuffer->bits() + (delta_y * pBackBuffer->bytesPerLine()) + delta_x*3*sizeof(uchar), qRgb(0, 0, 0), sizeof(uchar)*3);
+    if (delta_x > 0 && delta_x < pBackBuffer->width() && delta_y > 0 && delta_y < pBackBuffer->height()) {
+        memset(pBackBuffer->bits() + (delta_y * pBackBuffer->bytesPerLine()) + delta_x*3*sizeof(uchar), qRgb(0, 0, 0), sizeof(uchar)*3);
+    }
 }
 
 QString Point::desc() const
