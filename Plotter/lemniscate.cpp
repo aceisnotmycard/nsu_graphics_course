@@ -19,6 +19,7 @@ void Lemniscate::draw(QImage *pBackBuffer) const {
         { points.second, Point((points.second-focus2).y, -((points.second-focus2).x)) },
         { points.second, Point(-(points.second-focus2).y, ((points.second-focus2).x)) }
     };
+
     for(auto pair : pairs) {
         drawPart(pair.first, pair.second, pBackBuffer);
     }
@@ -27,7 +28,7 @@ void Lemniscate::draw(QImage *pBackBuffer) const {
 void Lemniscate::drawPart(Point cur, Point dir, QImage *pBackBuffer) const {
     Point center = (focus1 + focus2).shift();
     int i = 0;
-    while ((cur - center).absSquared() > 1 && i++ < 5000) {
+    while ((cur - center).absSquared() > 1 /*&& i++ < 5000*/) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
