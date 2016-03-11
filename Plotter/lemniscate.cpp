@@ -48,7 +48,7 @@ long long Lemniscate::betweenFocuses() const {
 std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
 
     long long minDistance = LLONG_MAX;
-    Point nextDir(0,0);
+    Point nextDir;
     for(auto& dir : directions) {
         // checking for correct direction
         if (prevDir * dir > 0) {
@@ -65,7 +65,7 @@ std::pair<Point, Point> Lemniscate::findStartPoints() const {
     Point c = focus2 - focus1;
     Point left = focus1-c;
     Point right = focus1;
-    Point center(0, 0);
+    Point center;
     while ((left - right).absSquared() > 2 ) {
         center = (left + right).shift();
         if (distanceToFocuses(center) > betweenFocuses()) {
@@ -82,7 +82,7 @@ QString Lemniscate::desc() const
     return QString("Leminiscate { (%1, %2), (%3, %4) }").arg(
                 QString::number(focus1.x), QString::number(focus1.y),
                 QString::number(focus2.x), QString::number(focus2.y)
-                );
+            );
 }
 
 void Lemniscate::setX1(int x1)

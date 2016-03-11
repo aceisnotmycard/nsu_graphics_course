@@ -10,6 +10,7 @@ class Point : public IDrawable
 public:
     Point(int x, int y) : x(x), y(y) {}
     Point(const Point& a) : x(a.x), y(a.y) {}
+    Point() : x(0), y(0) {}
 
     virtual void draw(QImage *pBackBuffer) const;
     virtual QString desc() const;
