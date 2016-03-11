@@ -8,9 +8,7 @@ void SceneController::setCanvas(Canvas* c) {
     canvas = c;
 
     circle1 = std::make_shared<Circle>(0, 0, 2);
-    //circle1->setColor(0,0, 255);
     circle2 = std::make_shared<Circle>(0, 0, 2);
-    circle2->setColor(255, 0, 0);
     lemniscate = std::make_shared<Lemniscate>(circle1->getX(), circle1->getY(), circle2->getX(), circle2->getY());
     verticalAxis = std::make_shared<Axis>(true);
     horizontalAxis = std::make_shared<Axis>(false);

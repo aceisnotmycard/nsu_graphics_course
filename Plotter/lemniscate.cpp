@@ -10,16 +10,19 @@
 Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
     : focus1(x1, y1), focus2(x2, y2) {}
 
-void Lemniscate::draw(QImage *pBackBuffer) const {
+void Lemniscate::draw(QImage *pBackBuffer) {
+
+    betweenFocuses = (focus1 - focus2).absSquared() * (focus1 - focus2).absSquared();
+
     auto points = findStartPoints();
 
     std::vector<std::pair<Point, Point>> pairs = {
-        { points.first, Point(-(points.first-focus2).y, ((points.first-focus2).x)) },
-        { points.first, Point((points.first-focus2).y, -((points.first-focus2).x)) },
-        { points.second, Point((points.second-focus2).y, -((points.second-focus2).x)) },
-        { points.second, Point(-(points.second-focus2).y, ((points.second-focus2).x)) }
+        { points.first,     Point(-(points.first-focus1).y, ((points.first-focus1).x)) },
+        { points.first,     Point((points.first-focus1).y, -((points.first-focus1).x)) },
+        { points.second,    Point((points.second-focus2).y, -((points.second-focus2).x)) },
+        { points.second,    Point(-(points.second-focus2).y, ((points.second-focus2).x)) }
     };
-
+    qDebug() << "\nNew drawing cycle\n";
     for (auto pair : pairs) {
         drawPart(pair.first, pair.second, pBackBuffer);
     }
@@ -29,21 +32,26 @@ void Lemniscate::drawPart(Point cur, Point dir, QImage *pBackBuffer) const {
     Point center = (focus1 + focus2).shift();
     // 'i' is a dirty hack that is required in some complicated situations
     // to prevent algorithm from infinite loop
+    // also it is useful for debug purposes
     int i = 0;
+    qDebug() << "======================";
+    qDebug() << "Starting direction: " << dir.desc();
+    qDebug() << "Starting point: " << cur.desc();
+    qDebug() << "Focus1: " << focus1.desc();
+    qDebug() << "Focus2: " << focus2.desc();
+    qDebug() << "======================";
     while ((cur - center).absSquared() >= 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
+        if (i < 20) qDebug() << dir.desc();
         cur.draw(pBackBuffer);
     }
 }
 
+inline
 long long Lemniscate::distanceToFocuses(const Point& p) const {
     return 16 * (p-focus1).absSquared() * (p-focus2).absSquared();
-}
-
-long long Lemniscate::betweenFocuses() const {
-    return (focus1 - focus2).absSquared() * (focus1 - focus2).absSquared();
 }
 
 std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
@@ -53,8 +61,8 @@ std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point
     for(auto& dir : directions) {
         // checking for correct direction
         if (prevDir * dir > 0) {
-            if (llabs(distanceToFocuses(dir+prev) - betweenFocuses()) < minDistance) {
-                minDistance = llabs(distanceToFocuses(dir+prev) - betweenFocuses());
+            if (llabs(distanceToFocuses(dir+prev) - betweenFocuses) < minDistance) {
+                minDistance = llabs(distanceToFocuses(dir+prev) - betweenFocuses);
                 nextDir = dir;
             }
         }
@@ -69,7 +77,7 @@ std::pair<Point, Point> Lemniscate::findStartPoints() const {
     Point center;
     while ((left - right).absSquared() > 2 ) {
         center = (left + right).shift();
-        if (distanceToFocuses(center) > betweenFocuses()) {
+        if (distanceToFocuses(center) > betweenFocuses) {
             left = center;
         } else {
             right = center;

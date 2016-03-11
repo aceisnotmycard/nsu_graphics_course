@@ -12,7 +12,7 @@ public:
     Point(const Point& a) : x(a.x), y(a.y) {}
     Point() : x(0), y(0) {}
 
-    virtual void draw(QImage *pBackBuffer) const;
+    virtual void draw(QImage *pBackBuffer);
     virtual QString desc() const;
 
     long long absSquared() const;

@@ -6,7 +6,7 @@ Circle::Circle(int x, int y, int r) : center_x(x), center_y(y), radius(r)
     color = qRgb(0,0,0);
 }
 
-void Circle::draw(QImage *pBackBuffer) const
+void Circle::draw(QImage *pBackBuffer)
 {
     if (!pBackBuffer) {
         return;

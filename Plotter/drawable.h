@@ -6,7 +6,7 @@
 
 class IDrawable {
 public:
-    virtual void draw(QImage *pBackBuffer) const = 0;
+    virtual void draw(QImage *pBackBuffer) = 0;
     virtual QString desc() const = 0;
 };
 

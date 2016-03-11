@@ -30,7 +30,7 @@ Point Point::shift() const
     return Point(x >> 1, y >> 1);
 }
 
-void Point::draw(QImage *pBackBuffer) const
+void Point::draw(QImage *pBackBuffer)
 {
     int delta_x = x + pBackBuffer->width() / 2;
     int delta_y = y + pBackBuffer->height() / 2;

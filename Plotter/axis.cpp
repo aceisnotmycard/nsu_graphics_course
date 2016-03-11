@@ -4,7 +4,7 @@ Axis::Axis(bool isVertical) : isVertical(isVertical)
 {
 }
 
-void Axis::draw(QImage *pBackBuffer) const
+void Axis::draw(QImage *pBackBuffer)
 {
     if (!isVertical) {
         memset(pBackBuffer->bits() + (pBackBuffer->height()/2 * pBackBuffer->bytesPerLine()), qRgb(0,0,0), pBackBuffer->width()*sizeof(uchar)*3);
