@@ -1,11 +1,9 @@
 #include "circle.h"
 #include <cmath>
 
-Circle::Circle(int x, int y, int r)
+Circle::Circle(int x, int y, int r) : center_x(x), center_y(y), radius(r)
 {
-    center_x = x;
-    center_y = y;
-    this->r = r;
+    color = qRgb(0,0,0);
 }
 
 void Circle::draw(QImage *pBackBuffer) const
@@ -16,23 +14,20 @@ void Circle::draw(QImage *pBackBuffer) const
 
     int delta_x = center_x + pBackBuffer->width() / 2;
     int delta_y = center_y + pBackBuffer->height() / 2;
-
-    auto width = [=](int y, int r) {
-        return (int) std::sqrt(r*r - (delta_y-y)*(delta_y-y));
-    };
-    auto drawHorizontalLine = [=](int y, int x_from, int length, QRgb color) {
-        memset(pBackBuffer->bits() + (y * pBackBuffer->bytesPerLine()) + x_from*3*sizeof(uchar), color, length*sizeof(uchar)*3);
-    };
-
-    for (int y = std::max(0, -r + delta_y - 1); y < std::min(pBackBuffer->height(), delta_y + r + 1); y++) {
-        int w = width(y, r);
+    for (int y = std::max(0, -radius + delta_y - 1); y < std::min(pBackBuffer->height(), delta_y + radius + 1); y++) {
+        int w = (int) std::sqrt(radius*radius - (delta_y-y)*(delta_y-y));
         int start_x = (delta_x-w < 0) ? 0 : std::min(pBackBuffer->width(), delta_x-w);
         int end_x = (delta_x+w > pBackBuffer->width()) ? pBackBuffer->width() : std::max(0, delta_x + w + 1);
-        drawHorizontalLine(y, static_cast<int>(start_x), static_cast<int>(end_x-start_x), qRgb(0,0,0));
+        memset(pBackBuffer->bits() + (y * pBackBuffer->bytesPerLine()) + start_x*3*sizeof(uchar), color, (end_x - start_x)*sizeof(uchar)*3);
     }
 }
 
 QString Circle::desc() const
 {
-    return QString("Circle { x: %1 y: %2 r: %3 }").arg(QString::number(center_x), QString::number(center_y), QString::number(r));
+    return QString("Circle { x: %1 y: %2 r: %3 }").arg(QString::number(center_x), QString::number(center_y), QString::number(radius));
+}
+
+void Circle::setColor(int red, int green, int blue)
+{
+    color = qRgb(red, green, blue);
 }

@@ -10,7 +10,7 @@
 int ConsoleController::start(int argc, char** argv)
 {
     if (argc != 3) {
-        std::cout << "Usage: ./Plotter {configuration filename} {output filename}"
+        std::cout << "Usage: ./Plotter {configuration filename} {output filename}\n";
     }
 
     auto configMap = *Config::load(argv[1]);

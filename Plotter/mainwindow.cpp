@@ -66,6 +66,7 @@ void MainWindow::saveConfig() {
 }
 
 void MainWindow::updateUI(const QMap<QString, int>* config) {
+    // Default params
     int x1 = -200;
     int x2 = 200;
     int y1 = 0;

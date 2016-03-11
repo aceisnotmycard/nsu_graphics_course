@@ -15,10 +15,14 @@ public:
     void setY(int y) { center_y = y; }
     int getX() const { return center_x; }
     int getY() const { return center_y; }
+
+    void setColor(int red, int green, int blue);
 private:
-  int center_x;
-  int center_y;
-  int r;
+    int color;
+    int center_x;
+    int center_y;
+    int radius;
+
 };
 
 #endif // CIRCLE_H

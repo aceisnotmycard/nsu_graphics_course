@@ -1,9 +1,9 @@
 #include "lemniscate.h"
 #include "point.h"
+
 #include <cmath>
 #include <QString>
 #include <limits.h>
-
 #include <QDebug>
 
 
@@ -28,6 +28,7 @@ void Lemniscate::draw(QImage *pBackBuffer) const {
 void Lemniscate::drawPart(Point cur, Point dir, QImage *pBackBuffer) const {
     Point center = (focus1 + focus2).shift();
     // 'i' is a dirty hack that is required in some complicated situations
+    // to prevent algorithm from infinite loop
     int i = 0;
     while ((cur - center).absSquared() >= 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
