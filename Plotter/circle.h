@@ -12,7 +12,7 @@ public:
     virtual QString desc() const;
 
     void setX(int x) { center_x = x; }
-    void setY(int y) { center_y = y; }
+    void setY(int y) { center_y = -y; }
     int getX() const { return center_x; }
     int getY() const { return center_y; }
 // Not working yet

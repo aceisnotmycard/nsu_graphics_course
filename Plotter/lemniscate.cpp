@@ -8,7 +8,7 @@
 
 
 Lemniscate::Lemniscate(int x1, int y1, int x2, int y2)
-    : focus1(x1, y1), focus2(x2, y2) {}
+    : focus1(x1, -y1), focus2(x2, -y2) {}
 
 void Lemniscate::draw(QImage *pBackBuffer) {
 
@@ -16,6 +16,8 @@ void Lemniscate::draw(QImage *pBackBuffer) {
 
     auto points = findStartPoints();
 
+    // second component of pair is starting direction that is orthogonal
+    // to the axis passing through starting point and nearest focus
     std::vector<std::pair<Point, Point>> pairs = {
         { points.first,     Point(-(points.first-focus1).y, ((points.first-focus1).x)) },
         { points.first,     Point((points.first-focus1).y, -((points.first-focus1).x)) },
@@ -101,7 +103,7 @@ void Lemniscate::setX1(int x1)
 
 void Lemniscate::setY1(int y1)
 {
-    focus1.y = y1;
+    focus1.y = -y1;
 }
 
 void Lemniscate::setX2(int x2)
@@ -111,7 +113,7 @@ void Lemniscate::setX2(int x2)
 
 void Lemniscate::setY2(int y2)
 {
-    focus2.y = y2;
+    focus2.y = -y2;
 }
 
 const std::vector<Point> Lemniscate::directions = {
