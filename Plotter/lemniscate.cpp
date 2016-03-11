@@ -20,7 +20,7 @@ void Lemniscate::draw(QImage *pBackBuffer) const {
         { points.second, Point(-(points.second-focus2).y, ((points.second-focus2).x)) }
     };
 
-    for(auto pair : pairs) {
+    for (auto pair : pairs) {
         drawPart(pair.first, pair.second, pBackBuffer);
     }
 }
@@ -29,7 +29,7 @@ void Lemniscate::drawPart(Point cur, Point dir, QImage *pBackBuffer) const {
     Point center = (focus1 + focus2).shift();
     // 'i' is a dirty hack that is required in some complicated situations
     int i = 0;
-    while ((cur - center).absSquared() > 1 && i++ < 5000) {
+    while ((cur - center).absSquared() >= 1 && i++ < 5000) {
         auto pair = findNextPoint(cur, dir);
         cur = pair.first;
         dir = pair.second;
@@ -48,11 +48,10 @@ long long Lemniscate::betweenFocuses() const {
 std::pair<Point, Point> Lemniscate::findNextPoint(const Point& prev, const Point& prevDir) const {
 
     long long minDistance = LLONG_MAX;
-    long long maxScalar = 0;
     Point nextDir(0,0);
     for(auto& dir : directions) {
         // checking for correct direction
-        if (prevDir * dir >= 1) {
+        if (prevDir * dir > 0) {
             if (llabs(distanceToFocuses(dir+prev) - betweenFocuses()) < minDistance) {
                 minDistance = llabs(distanceToFocuses(dir+prev) - betweenFocuses());
                 nextDir = dir;
@@ -88,22 +87,22 @@ QString Lemniscate::desc() const
 
 void Lemniscate::setX1(int x1)
 {
-    focus1 = Point(x1, focus1.y);
+    focus1.x = x1;
 }
 
 void Lemniscate::setY1(int y1)
 {
-    focus1 = Point(focus1.x, y1);
+    focus1.y = y1;
 }
 
 void Lemniscate::setX2(int x2)
 {
-    focus2 = Point(x2, focus2.y);
+    focus2.x = x2;
 }
 
 void Lemniscate::setY2(int y2)
 {
-    focus2 = Point(focus2.x, y2);
+    focus2.y = y2;
 }
 
 const std::vector<Point> Lemniscate::directions = {
