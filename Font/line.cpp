@@ -8,7 +8,6 @@ const double Line::DELTA = 1e-6;
 
 Line::Line(const BezierPoint &a, const BezierPoint &b) : a(a), b(b) {}
 
-// TODO: Refactor
 void Line::draw(QImage *pBackBuffer, QRgb color) {
     if (isHorizontal()) {
         drawHorizontal(pBackBuffer, color);

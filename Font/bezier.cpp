@@ -52,11 +52,11 @@ std::vector<double> Bezier::trace(double y) const {
 
     if (deter >= 0) {
         double t[2];
-        t[0] = (-B + std::sqrt(deter)) / (2 * A);
-        t[1] = (-B - std::sqrt(deter)) / (2 * A);
+        t[0] = -B + std::sqrt(deter);
+        t[1] = -B - std::sqrt(deter);
         for (int i = 0; i < 2; ++i) {
-            if (t[i] >= - Bezier::DELTA && t[i] <= 1 + Bezier::DELTA) {
-               res.push_back(findX(t[i]));
+            if (t[i] >= 0 && t[i] <= (2 * A)) {
+               res.push_back(findX(t[i]/(2 * A)));
             }
         }
     }

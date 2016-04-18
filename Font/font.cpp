@@ -6,17 +6,15 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <cmath>
-#include <initializer_list>
 
-Font::Font(const std::vector<std::vector<BezierPoint>>& figures) : figures(figures), x(0), y(0), scale(0), is_filled(true), is_outlined(true) {}
+Font::Font(const std::vector<std::vector<BezierPoint>>& figures)
+    : figures(figures), x(0), y(0), scale(0), is_filled(true), is_outlined(true) {}
 
-Font::Font(const QJsonObject &json)
-{
+Font::Font(const QJsonObject &json) {
     fromJSON(json);
 }
 
-void Font::draw(QImage *pBackBuffer, QRgb fillColor)
-{
+void Font::draw(QImage *pBackBuffer, QRgb fillColor) {
     for (auto figure : figures) {
         if (is_filled) {
             fill(pBackBuffer, figure, qRgb(0,0,255));
