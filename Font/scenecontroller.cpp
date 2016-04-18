@@ -29,47 +29,47 @@ void SceneController::setCanvas(Canvas* c) {
 }
 
 int SceneController::getX() {
-    return font->getX();
+    return font->x;
 }
 
 int SceneController::getY() {
-    return font->getY();
+    return font->y;
 }
 
 int SceneController::getScale() {
-    return font->getScale();
+    return font->scale;
 }
 
 void SceneController::fromJSON(const QJsonObject& json) {
     font->fromJSON(json);
-    emit fontUpdated(font->getX(), font->getY(), font->getScale(), font->getFill(), font->getOutline());
+    emit fontUpdated(font->x, font->y, font->scale, font->is_filled, font->is_outlined);
     canvas->update();
 }
 
 
 void SceneController::setX(int x) {
-    font->setX(x);
+    font->x = x;
     canvas->update();
 }
 
 void SceneController::setY(int y) {
-    font->setY(y);
+    font->y = y;
     canvas->update();
 }
 
 void SceneController::setScale(int scale) {
-    font->setScale(scale);
+    font->scale = scale;
     canvas->update();
 }
 
 void SceneController::setOutline(bool outline)
 {
-    font->setOutline(outline);
+    font->is_outlined = outline;
     canvas->update();
 }
 
 void SceneController::setFill(bool fill)
 {
-    font->setFill(fill);
+    font->is_filled = fill;
     canvas->update();
 }

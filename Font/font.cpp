@@ -58,33 +58,11 @@ void Font::fill(QImage *pBackBuffer, const std::vector<BezierPoint> &points, QRg
                 }
             } else {
                 auto res = Bezier({ point_at(i, points), point_at(i+1, points), point_at(i+2, points) }).trace(y);
-//                switch (res.size()) {
-//                case 0:
-//                    qDebug() << y << "not found";
-//                    break;
-//                case 1:
-//                    qDebug() << y << res[0];
-//                    break;
-//                case 2:
-//                    qDebug() << y << res[0] << " " << res[1];
-//                    break;
-//                }
-
                 intersections.insert(std::end(intersections), std::begin(res), std::end(res));
                 ++i;
             }
         }
         std::sort(std::begin(intersections), std::end(intersections), [](int a, int b) { return a < b; });
-        //std::unique(std::begin(intersections), std::end(intersections));
-
-//        qDebug() << "y:" << y << "number of intersections:" << intersections.size();
-//        if (intersections.size() > 2) {
-//            qDebug() << "Found" << intersections.size() << "intersections" << "at" << y;
-//            //Line({ -500, y, false }, {intersections[2], y, false }).draw(pBackBuffer, qRgb(255, 0, 0));
-//            for (auto inter : intersections) {
-//                qDebug() << inter;
-//            }
-//        }
         for (size_t i = 1; i < intersections.size(); i+= 2) {
                 if (std::abs(intersections[i] - intersections[i-1]) > 1) {
                     Line l({ intersections[i-1], y, false }, { intersections[i], y, false });
@@ -134,53 +112,4 @@ void Font::fromJSON(const QJsonObject &json)
         }
         figures.push_back(figure);
     }
-}
-
-void Font::setX(int x)
-{
-    this->x = x;
-}
-
-void Font::setY(int y)
-{
-    this->y = y;
-}
-
-int Font::getX() const
-{
-    return x;
-}
-
-int Font::getY() const
-{
-    return y;
-}
-
-int Font::getScale() const
-{
-    return scale;
-}
-
-bool Font::getFill() const
-{
-    return is_filled;
-}
-
-bool Font::getOutline() const
-{
-    return is_outlined;
-}
-
-void Font::setScale(int scale) {
-    this->scale = scale;
-}
-
-void Font::setFill(bool fill)
-{
-    is_filled = fill;
-}
-
-void Font::setOutline(bool outline)
-{
-    is_outlined = outline;
 }

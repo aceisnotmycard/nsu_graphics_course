@@ -16,7 +16,6 @@ public:
     virtual void draw(QImage *pBackBuffer, QRgb color);
 
     BezierPoint* trace(double y);
-    static BezierPoint *intersection(const Line &a, const Line &b);
 private:
     BezierPoint a;
     BezierPoint b;
